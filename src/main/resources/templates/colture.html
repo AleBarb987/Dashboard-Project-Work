@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Andamento Colture - OrtiVerdi</title>
+    <!-- Collegamento al CSS della dashboard -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <!-- Chart.js per grafici dinamici -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<header>
+    <!-- Navbar comune a tutte le pagine -->
+    <nav class="navbar">
+        <div class="nav-title">OrtiVerdi Dashboard</div>
+        <select id="pageSelector" class="nav-select">
+            <option value="">Vai a...</option>
+            <option value="/">Home</option>
+            <option value="/analisi-raccolto">Analisi Raccolto</option>
+            <option value="/analisi-costi-profitti">Costi & Profitti</option>
+            <option value="/analisi-consumo-idrico">Consumo Idrico</option>
+            <option value="/colture">Colture</option>
+        </select>
+    </nav>
+</header>
+
+<main>
+
+    <h1>Andamento Colture</h1>
+
+    <!-- Sezione di selezione delle colture da visualizzare -->
+    <section class="colture-selector">
+        <h2>Seleziona colture</h2>
+        <div id="checkbox-colture">
+            <ul>
+                <!-- Ciclo sulle colture passate dal backend -->
+                <!-- Ogni <li> rappresenta una coltura cliccabile -->
+                <li th:each="c : ${colture}"
+                    th:data-nome="${c.nome}"
+                class="active"
+                th:text="${c.nome}">       <!-- mostra il nome della coltura -->
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Grafico quantità raccolto mensile -->
+    <section class="grafico-section">
+        <h2>Quantità Raccolto Mensile</h2>
+        <div class="grafico-container">
+            <canvas id="graficoColture"></canvas>
+        </div>
+    </section>
+
+    <!-- Grafico costi vs guadagni annuali -->
+    <section class="grafico-section">
+        <h2>Costi vs Guadagni Annuali</h2>
+        <div class="grafico-container">
+            <canvas id="graficoCostiGuadagni"></canvas>
+        </div>
+    </section>
+
+</main>
+
+<script th:inline="javascript">
+    // Riceve i dati JSON dal backend
+    let coltureArray = /*[[${coltureJson}]]*/ '[]';  // array di oggetti coltura
+    let mesi = /*[[${mesi}]]*/ '[]';                // array dei nomi dei mesi
+
+    // Se i dati sono stringhe, li converte in oggetti JavaScript
+    if (typeof coltureArray === 'string') coltureArray = JSON.parse(coltureArray);
+    if (typeof mesi === 'string') mesi = JSON.parse(mesi);
+</script>
+
+<!-- Script per gestione grafici e interattività colture -->
+<script th:src="@{/js/colture.js}"></script>
+
+</body>
+</html>

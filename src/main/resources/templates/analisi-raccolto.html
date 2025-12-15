@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grafico Raccolto - OrtiVerdi</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <!-- Inclusione di Chart.js per la visualizzazione dei grafici -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<header>
+    <!-- Navbar comune con menu a tendina per navigare tra le pagine -->
+    <nav class="navbar">
+        <div class="nav-title">OrtiVerdi Dashboard</div>
+        <select id="pageSelector" class="nav-select">
+            <option value="">Vai a...</option>
+            <option value="/">Home</option>
+            <option value="/analisi-raccolto">Analisi Raccolto</option>
+            <option value="/analisi-costi-profitti">Costi & Profitti</option>
+            <option value="/analisi-consumo-idrico">Consumo Idrico</option>
+            <option value="/colture">Colture</option>
+        </select>
+    </nav>
+</header>
+
+<main>
+
+    <h1>Grafico Raccolto</h1>
+    <!-- Visualizza il mese selezionato usando Thymeleaf -->
+    <h2 th:text="'Mese selezionato: ' + ${mesi[meseSelezionato - 1]}"></h2>
+
+    <!-- Selettore mese per aggiornare la visualizzazione dei dati -->
+    <section class="menu">
+        <form id="meseForm" action="/analisi-raccolto" method="get">
+            <label for="mese">Seleziona mese:</label>
+            <select name="mese" id="mese">
+                <!-- Ciclo dei mesi con selezione dinamica -->
+                <option th:each="m, iter : ${mesi}"
+                        th:value="${iter.index + 1}"
+                        th:text="${m}"
+                        th:selected="${(iter.index + 1) == meseSelezionato}">
+                </option>
+            </select>
+            <button type="submit">VAI</button>
+        </form>
+    </section>
+
+    <!-- Tabella dei dati ambientali e produttivi del mese selezionato -->
+    <section class="table-container">
+        <table>
+            <thead>
+            <tr>
+                <th>Parametro</th>
+                <th>Valore</th>
+                <th>Unità</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Thymeleaf formatta i numeri con precisione -->
+            <tr><td>Temperatura</td><td th:text="${#numbers.formatDecimal(datiAmbientali.temperatura, 1, 2)}"></td><td>°C</td></tr>
+            <tr><td>Umidità</td><td th:text="${#numbers.formatDecimal(datiAmbientali.umiditaRelativa, 1, 2)}"></td><td>%</td></tr>
+            <tr><td>Precipitazioni</td><td th:text="${#numbers.formatDecimal(datiAmbientali.precipitazioni, 1, 2)}"></td><td>mm</td></tr>
+            <tr><td>Vento</td><td th:text="${#numbers.formatDecimal(datiAmbientali.velocitaVento, 1, 2)}"></td><td>m/s</td></tr>
+            <tr><td>Luminosità</td><td th:text="${#numbers.formatDecimal(datiAmbientali.luminosita, 1, 2)}"></td><td>lux</td></tr>
+            <tr><td>Quantità raccolto</td><td th:text="${#numbers.formatDecimal(datiProduttivi.quantitaRaccolto, 1, 2)}"></td><td>kg</td></tr>
+            <tr><td>Consumo idrico</td><td th:text="${#numbers.formatDecimal(datiProduttivi.consumoIdrico, 1, 2)}"></td><td>litri</td></tr>
+            <tr><td>Costi di produzione</td><td th:text="${#numbers.formatDecimal(datiProduttivi.costiProduzione, 1, 2)}"></td><td>€</td></tr>
+            <tr><td>Margine di profitto</td><td th:text="${#numbers.formatDecimal(datiProduttivi.profitto, 1, 2)}"></td><td>€</td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Grafico a barre con andamento annuale del raccolto -->
+    <section class="grafico-container">
+        <canvas id="graficoRaccolto"></canvas>
+    </section>
+
+</main>
+
+<!-- Script Thymeleaf per passare i dati al JS -->
+<script th:inline="javascript">
+    const labelsData = /*[[${mesi}]]*/ [];             // Mesi dell’anno
+    const raccoltoData = /*[[${raccoltoAnnuale}]]*/ []; // Quantità raccolto annuale
+    const sogliaData = /*[[${sogliaMediaRaccolto}]]*/ 0; // Media annuale del raccolto
+</script>
+
+<!-- Script esterno che crea il grafico usando Chart.js -->
+<script th:src="@{/js/analisi-raccolto.js}"></script>
+
+</body>
+</html>

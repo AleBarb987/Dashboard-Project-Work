@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌱 OrtiVerdi Dashboard</title>
+    <!-- Collegamento al foglio di stile CSS -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="home">
+
+<!-- Titolo principale della dashboard -->
+<h1>Dashboard OrtiVerdi</h1>
+
+<!-- Sottotitolo descrittivo della dashboard -->
+<h2>Gestisci e visualizza tutte le tue analisi agricole</h2>
+
+<!-- Box di navigazione rapida: link alle principali sezioni del sito -->
+<div class="box-container">
+    <a th:href="@{/analisi-raccolto}" class="box">🌾 Andamento produzione annuale</a>
+    <a th:href="@{/analisi-consumo-idrico}" class="box">💧 Andamento consumo idrico</a>
+    <a th:href="@{/analisi-costi-profitti}" class="box">💰 Bilancio economico mensile</a>
+    <a th:href="@{/colture}" class="box">🌱 Andamento complessivo delle colture</a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analisi Consumo Idrico - OrtiVerdi</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <!-- Chart.js per la visualizzazione grafica -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<header>
+    <!-- Navbar comune a tutte le pagine -->
+    <nav class="navbar">
+        <div class="nav-title">OrtiVerdi Dashboard</div>
+        <select id="pageSelector" class="nav-select">
+            <option value="">Vai a...</option>
+            <option value="/">Home</option>
+            <option value="/analisi-raccolto">Analisi Raccolto</option>
+            <option value="/analisi-costi-profitti">Costi & Profitti</option>
+            <option value="/analisi-consumo-idrico">Consumo Idrico</option>
+            <option value="/colture">Colture</option>
+        </select>
+    </nav>
+</header>
+
+<main>
+
+    <h1>Analisi Consumo Idrico</h1>
+    <!-- Visualizzazione mese selezionato dinamicamente -->
+    <h2 th:text="'Mese selezionato: ' + ${mesi[meseSelezionato - 1]}"></h2>
+
+    <!-- Selezione mese -->
+    <section class="menu">
+        <form id="meseForm" action="/analisi-consumo-idrico" method="get">
+            <label for="mese">Seleziona mese:</label>
+            <select name="mese" id="mese">
+                <option th:each="m, iter : ${mesi}"
+                        th:value="${iter.index + 1}"
+                        th:text="${m}"
+                        th:selected="${(iter.index + 1) == meseSelezionato}">
+                </option>
+            </select>
+            <button type="submit">VAI</button>
+        </form>
+    </section>
+
+    <!-- Tabella con dati ambientali e produttivi -->
+    <section class="table-container">
+        <table>
+            <thead>
+            <tr>
+                <th>Parametro</th>
+                <th>Valore</th>
+                <th>Unità</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Riga per ogni parametro ambientale e produttivo -->
+            <tr><td>Temperatura</td><td th:text="${#numbers.formatDecimal(datiAmbientali.temperatura, 1, 2)}"></td><td>°C</td></tr>
+            <tr><td>Umidità</td><td th:text="${#numbers.formatDecimal(datiAmbientali.umiditaRelativa, 1, 2)}"></td><td>%</td></tr>
+            <tr><td>Precipitazioni</td><td th:text="${#numbers.formatDecimal(datiAmbientali.precipitazioni, 1, 2)}"></td><td>mm</td></tr>
+            <tr><td>Vento</td><td th:text="${#numbers.formatDecimal(datiAmbientali.velocitaVento, 1, 2)}"></td><td>m/s</td></tr>
+            <tr><td>Luminosità</td><td th:text="${#numbers.formatDecimal(datiAmbientali.luminosita, 1, 2)}"></td><td>lux</td></tr>
+            <tr><td>Quantità raccolto</td><td th:text="${#numbers.formatDecimal(datiProduttivi.quantitaRaccolto, 1, 2)}"></td><td>kg</td></tr>
+            <tr><td>Consumo idrico</td><td th:text="${#numbers.formatDecimal(datiProduttivi.consumoIdrico, 1, 2)}"></td><td>litri</td></tr>
+            <tr><td>Costi di produzione</td><td th:text="${#numbers.formatDecimal(datiProduttivi.costiProduzione, 1, 2)}"></td><td>€</td></tr>
+            <tr><td>Margine di profitto</td><td th:text="${#numbers.formatDecimal(datiProduttivi.profitto, 1, 2)}"></td><td>€</td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Grafico consumo idrico -->
+    <section class="grafico-container">
+        <canvas id="graficoConsumo"></canvas>
+    </section>
+
+</main>
+
+<!-- Variabili globali fornite dal backend per JS -->
+<script th:inline="javascript">
+    const labelsData = /*[[${mesi}]]*/ [];              // Nomi mesi
+    const consumoData = /*[[${consumoMensile}]]*/ [];   // Valori consumo idrico mensile
+    const sogliaData = /*[[${sogliaMediaConsumo}]]*/ 0; // Soglia media
+</script>
+<script th:src="@{/js/analisi-consumo.js}"></script>
+
+</body>
+</html>

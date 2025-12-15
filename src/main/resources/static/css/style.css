@@ -1,0 +1,180 @@
+/* =========================================================
+   GLOBAL STYLE - ORTIVERDI DASHBOARD
+   ========================================================= */
+
+/* -------------------- BODY & FONT -------------------- */
+body {
+    font-family: Arial, sans-serif; /* Font principale */
+    background-color: #f3f6f1;      /* Colore di sfondo generale */
+    color: #333;                    /* Colore testo principale */
+    margin: 0;
+    padding: 20px;
+    text-align: center;             /* Testo centrato di default */
+}
+
+h1, h2 {
+    text-align: center;             /* Titoli centrati */
+    margin-bottom: 1rem;            /* Spaziatura sotto i titoli */
+    color: #2e7d32;                 /* Verde scuro per titoli */
+}
+
+/* -------------------- NAVBAR -------------------- */
+.navbar {
+    display: flex;                  /* Layout a riga */
+    justify-content: space-between; /* Spazio tra titolo e select */
+    align-items: center;            /* Allineamento verticale */
+    background-color: #2e7d32;      /* Verde scuro navbar */
+    color: white;                   /* Testo bianco */
+    padding: 0.8rem 1.2rem;         /* Padding interno */
+    margin-bottom: 1.5rem;          /* Spazio sotto la navbar */
+    border-radius: 8px;             /* Angoli arrotondati */
+}
+
+.nav-title {
+    font-size: 1.2rem;
+    font-weight: 600;               /* Grassetto leggero */
+}
+
+.nav-select {
+    background: #fff;               /* Sfondo bianco per select */
+    color: #2e7d32;                 /* Testo verde */
+    border: 1px solid #2e7d32;      /* Bordo verde */
+    border-radius: 6px;
+    padding: 0.4rem 0.8rem;
+    font-size: 1rem;
+    cursor: pointer;                /* Puntatore a mano */
+}
+
+/* -------------------- MENU -------------------- */
+.menu {
+    display: inline-block;
+    padding: 10px 15px;
+    margin-bottom: 20px;
+}
+
+.menu label {
+    font-weight: 600;
+    margin-right: 8px;
+}
+
+.menu select, .menu button {
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid #2e7d32;
+    font-size: 0.95rem;
+    cursor: pointer;
+}
+
+.menu button {
+    background-color: #2e7d32; /* Verde scuro */
+    color: white;               /* Testo bianco */
+    border: none;
+    margin-left: 8px;
+}
+
+/* -------------------- TABLE -------------------- */
+.table-container {
+    overflow-x: auto;             /* Scroll orizzontale se necessario */
+    margin: 2rem auto;
+    width: 90%;
+    border-radius: 8px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;   /* Nessuno spazio tra celle */
+    background: #fff;
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ccc;
+}
+
+th {
+    background-color: #4CAF50;   /* Verde intestazioni */
+    color: white;
+}
+
+/* -------------------- BOX CONTAINER (Home) -------------------- */
+.box-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;              /* Avvolge le box su più righe se necessario */
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.box {
+    width: 200px;
+    height: 100px;
+    background-color: #4CAF50;   /* Verde box */
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;        /* Rimuove sottolineatura link */
+    font-weight: bold;
+    font-size: 0.95rem;
+    border-radius: 8px;
+}
+
+/* -------------------- GRAFICI -------------------- */
+.grafico-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 30px auto;
+    width: 90%;
+    max-width: 900px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+}
+
+canvas {
+    width: 100% !important;       /* Forza larghezza al 100% */
+    height: 400px !important;     /* Altezza fissa */
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+/* -------------------- CHECKBOX COLTURE -------------------- */
+#checkbox-colture ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    list-style: none;
+    padding: 0;
+}
+
+#checkbox-colture li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background: #c8f0c8;         /* Verde chiaro di default */
+    border: 1px solid #2e7d32;
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+#checkbox-colture li.active {
+    background: #4CAF50;          /* Verde scuro se attivo */
+    color: white;
+}
+
+/* -------------------- RESPONSIVE -------------------- */
+@media screen and (max-width: 768px) {
+    .grafico-container, table {
+        width: 95%;
+    }
+
+    .box-container {
+        flex-direction: column;
+        align-items: center;
+    }
+}

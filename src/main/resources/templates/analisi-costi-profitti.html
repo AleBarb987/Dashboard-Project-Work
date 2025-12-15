@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Costi e Profitti Mensili - OrtiVerdi</title>
+    <!-- Collegamento CSS -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <!-- Chart.js per grafici -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<header>
+    <!-- Navbar con selezione dinamica delle pagine -->
+    <nav class="navbar">
+        <div class="nav-title">OrtiVerdi Dashboard</div>
+        <select id="pageSelector" class="nav-select">
+            <option value="">Vai a...</option>
+            <option value="/">Home</option>
+            <option value="/analisi-raccolto">Analisi Raccolto</option>
+            <option value="/analisi-costi-profitti">Costi & Profitti</option>
+            <option value="/analisi-consumo-idrico">Consumo Idrico</option>
+            <option value="/colture">Colture</option>
+        </select>
+    </nav>
+</header>
+
+<main>
+
+    <!-- Titolo pagina -->
+    <h1>Costi e Profitti Mensili</h1>
+    <!-- Visualizza il mese selezionato dinamicamente tramite Thymeleaf -->
+    <h2 th:text="'Mese selezionato: ' + ${mesi[meseSelezionato - 1]}"></h2>
+
+    <!-- Selezione del mese -->
+    <section class="menu">
+        <form id="meseForm" action="/analisi-costi-profitti" method="get">
+            <label for="mese">Seleziona mese:</label>
+            <select name="mese" id="mese">
+                <!-- Ciclo Thymeleaf per creare le opzioni dei mesi -->
+                <option th:each="m, iter : ${mesi}"
+                        th:value="${iter.index + 1}"
+                th:text="${m}"
+                th:selected="${(iter.index + 1) == meseSelezionato}"> <!-- Seleziona il mese corrente -->
+                </option>
+            </select>
+            <button type="submit">VAI</button>
+        </form>
+    </section>
+
+    <!-- Tabella con dati ambientali e produttivi -->
+    <section class="table-container">
+        <table>
+            <thead>
+            <tr>
+                <th>Parametro</th>
+                <th>Valore</th>
+                <th>Unità</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Parametri ambientali -->
+            <tr><td>Temperatura</td><td th:text="${#numbers.formatDecimal(datiAmbientali.temperatura, 1, 2)}"></td><td>°C</td></tr>
+            <tr><td>Umidità</td><td th:text="${#numbers.formatDecimal(datiAmbientali.umiditaRelativa, 1, 2)}"></td><td>%</td></tr>
+            <tr><td>Precipitazioni</td><td th:text="${#numbers.formatDecimal(datiAmbientali.precipitazioni, 1, 2)}"></td><td>mm</td></tr>
+            <tr><td>Vento</td><td th:text="${#numbers.formatDecimal(datiAmbientali.velocitaVento, 1, 2)}"></td><td>m/s</td></tr>
+            <tr><td>Luminosità</td><td th:text="${#numbers.formatDecimal(datiAmbientali.luminosita, 1, 2)}"></td><td>lux</td></tr>
+
+            <!-- Parametri produttivi -->
+            <tr><td>Quantità raccolto</td><td th:text="${#numbers.formatDecimal(datiProduttivi.quantitaRaccolto, 1, 2)}"></td><td>kg</td></tr>
+            <tr><td>Consumo idrico</td><td th:text="${#numbers.formatDecimal(datiProduttivi.consumoIdrico, 1, 2)}"></td><td>litri</td></tr>
+            <tr><td>Costi di produzione</td><td th:text="${#numbers.formatDecimal(datiProduttivi.costiProduzione, 1, 2)}"></td><td>€</td></tr>
+            <tr><td>Margine di profitto</td><td th:text="${#numbers.formatDecimal(datiProduttivi.profitto, 1, 2)}"></td><td>€</td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Contenitore per il grafico dei costi e profitti -->
+    <section class="grafico-container">
+        <canvas id="graficoCostiProfitti"></canvas>
+    </section>
+
+</main>
+
+<!-- Variabili JavaScript valorizzate da Thymeleaf -->
+<script th:inline="javascript">
+    const mesi = /*[[${mesi}]]*/ [];                 // Array dei mesi abbreviati
+    const costi = /*[[${costiMensili}]]*/ [];        // Valori dei costi mensili
+    const profitti = /*[[${profittiMensili}]]*/ [];  // Valori dei profitti mensili
+</script>
+<!-- Script JS per creare il grafico Chart.js e gestire la navbar -->
+<script th:src="@{/js/analisi-costi-profitti.js}"></script>
+
+</body>
+</html>
