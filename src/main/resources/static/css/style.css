@@ -72,29 +72,56 @@ h1, h2 {
     margin-left: 8px;
 }
 
-/* -------------------- TABLE -------------------- */
+/* -------------------- TABLE MODERN STYLE -------------------- */
 .table-container {
-    overflow-x: auto;             /* Scroll orizzontale se necessario */
     margin: 2rem auto;
     width: 90%;
-    border-radius: 8px;
+    max-width: 1000px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* Ombra per profondità */
+    overflow: hidden; /* Taglia gli angoli retti della tabella interna */
 }
 
 table {
     width: 100%;
-    border-collapse: collapse;   /* Nessuno spazio tra celle */
-    background: #fff;
-}
-
-th, td {
-    padding: 10px;
-    text-align: center;
-    border: 1px solid #ccc;
+    border-collapse: collapse;
+    font-size: 1rem;
 }
 
 th {
-    background-color: #4CAF50;   /* Verde intestazioni */
+    background-color: #2e7d32; /* Verde scuro coerente con Navbar */
     color: white;
+    text-transform: uppercase; /* Testo in maiuscolo per intestazioni */
+    letter-spacing: 1px;
+    padding: 15px;
+    font-weight: 600;
+}
+
+td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #eee;
+    color: #444;
+}
+
+/* Effetto righe alternate */
+tbody tr:nth-child(even) {
+    background-color: #f9fbf9;
+}
+
+/* Hover sulla riga per facilitare la lettura */
+tbody tr:hover {
+    background-color: #f1f8f1;
+    transition: background-color 0.3s ease;
+}
+
+/* Formattazione specifica per i valori numerici */
+td:nth-child(2) {
+    font-family: 'Courier New', monospace; /* Font mono per allineare i decimali */
+    font-weight: bold;
+    color: #2e7d32;
+    text-align: right; /* Valori a destra */
+    padding-right: 30px;
 }
 
 /* -------------------- BOX CONTAINER (Home) -------------------- */
