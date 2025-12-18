@@ -178,3 +178,31 @@ canvas {
         align-items: center;
     }
 }
+
+
+/* -------------------- LOGO -------------------- */
+/* Stili per gli sfondi differenziati */
+body.home { background: url('/images/home.png') no-repeat center center fixed; background-size: cover; }
+body.raccolto { background: url('/images/analisi-raccolto.png') no-repeat center center fixed; background-size: cover; }
+body.idrico { background: url('/images/analisi-consumo-idrico.png') no-repeat center center fixed; background-size: cover; }
+body.costi-profitti { background: url('/images/costi-profitti.png') no-repeat center center fixed; background-size: cover; }
+body.colture { background: url('/images/colture.png') no-repeat center center fixed; background-size: cover; }
+
+/* Overlay per rendere il testo leggibile sopra l'immagine */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(255, 255, 255, 0.85); /* Sfondo semitrasparente bianco */
+    z-index: -1;
+}
+
+/* Stile per il Logo */
+.logo-container {
+    text-align: center;
+    padding: 10px 0;
+}
+.logo-img {
+    max-width: 150px;
+    height: auto;
+}
